@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { ListGroup, Button } from 'react-bootstrap';
+import { ListGroup, Button, Form } from 'react-bootstrap';
 
 const MovieList = () => {
     const [movies, setMovies] = useState([]);
@@ -93,24 +93,37 @@ const MovieList = () => {
     };
 
     return (
-    <div>
-      <ListGroup>
-        {movies.map((movie) => (
-          <ListGroup.Item
-            key={movie.id}
-            style={{
-              backgroundColor: selectedMovies.includes(movie) ? 'lightgreen' : 'white',
-            }}
-          >
-            {movie.title}
-            <Button onClick={() => handleSelect(movie)}>
-              {selectedMovies.includes(movie) ? 'Deselect' : 'Select'}
-            </Button>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
-      <Button onClick={handleSubmit}>Submit Selected Movies</Button>
-    </div>
+        <div>
+            <Form>
+                <Form.Group controlId="searchTerm">
+                    <Form.Control
+                        type="text"
+                        placeholder="Search movies"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </Form.Group>
+                <Button variant="primary" onClick={handleSearch}>
+                    Search
+                </Button>
+            </Form>
+            <ListGroup>
+                {movies.map((movie) => (
+                    <ListGroup.Item
+                        key={movie.id}
+                        style={{
+                            backgroundColor: selectedMovies.includes(movie) ? 'lightgreen' : 'white',
+                        }}
+                    >
+                        {movie.title}
+                        <Button onClick={() => handleSelect(movie)}>
+                            {selectedMovies.includes(movie) ? 'Deselect' : 'Select'}
+                        </Button>
+                    </ListGroup.Item>
+                ))}
+            </ListGroup>
+            <Button onClick={handleSubmit}>Submit Selected Movies</Button>
+        </div>
     );
 };
 
