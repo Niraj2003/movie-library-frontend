@@ -3,6 +3,10 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { ListGroup, Button, Form } from 'react-bootstrap';
 
+const axiosInstance = axios.create({
+    withCredentials: true
+  });
+
 const MovieList = () => {
     const [movies, setMovies] = useState([]);
     const [selectedMovies, setSelectedMovies] = useState([]);
@@ -51,14 +55,9 @@ const MovieList = () => {
         };
 
         try {
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 'https://movie-library-backend-theta.vercel.app/api/lists',
                 listData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
             );
             console.log(response.data);
         } catch (error) {
@@ -74,13 +73,8 @@ const MovieList = () => {
         }
 
         try {
-            const response = await axios.get(
-                `https://movie-library-backend-theta.vercel.app/api/movies/search?query=${searchTerm}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
+            const response = await axiosInstance.get( 
+                `https://movie-library-backend-theta.vercel.app/api/movies/search?query=${searchTerm}`
             );
             if (response.data && Array.isArray(response.data.Search)) {
                 setMovies(response.data.Search);

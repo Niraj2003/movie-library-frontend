@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const axiosInstance = axios.create({
+  withCredentials: true
+});
+
 const Register = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -17,7 +21,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/register', formData);
+      const response = await axiosInstance.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/register', formData);
       console.log(response.data);
       alert("Registration successful");
       navigate('/login');

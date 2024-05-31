@@ -3,6 +3,10 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
+const axiosInstance = axios.create({
+  withCredentials: true
+});
+
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,7 +27,7 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/login', formData);
+      const response = await axiosInstance.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/login', formData);
       console.log(response.data);
       // const token = response.data.token; // Adjust according to the structure of your response
       // Cookies.set('authToken', token, { expires: 7, sameSite: 'Lax' });  // Store the token in a cookie for 7 days

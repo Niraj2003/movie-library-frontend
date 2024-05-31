@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ListGroup, Spinner } from 'react-bootstrap';
 
+const axiosInstance = axios.create({
+  withCredentials: true
+});
+
 const Profile = () => {
   const [userData, setUserData] = useState({});
   const [movieLists, setMovieLists] = useState([]);
@@ -11,7 +15,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('https://movie-library-backend-theta.vercel.app/api/auth/profile', {
+        const response = await axiosInstance.get('https://movie-library-backend-theta.vercel.app/api/auth/profile', {
           withCredentials: true // Include cookies with the request
         });
         setUserData(response.data.user);
