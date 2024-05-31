@@ -26,7 +26,7 @@ const Login = () => {
       const response = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/login', formData);
       console.log(response.data);
       const token = response.data.token; // Adjust according to the structure of your response
-      Cookies.set('authToken', token, { expires: 7 }); // Store the token in a cookie for 7 days
+      Cookies.set('authToken', token, { expires: 7, sameSite: 'Lax' });  // Store the token in a cookie for 7 days
       alert("Login successful");
       navigate('/');
     } catch (error) {
