@@ -24,7 +24,6 @@ return (
     <Navbar />
     <div className="row justify-content-center">
   <div className="col-md-8">
-    <h2 className='display-4 text-center'>Welcome to Movie Library</h2>
     <div className="jumbotron mt-4">
       <h3>Public Lists</h3>
       {publicLists.map(list => (
