@@ -7,7 +7,7 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 
 function App() {
-  console.log(process.env.REACT_APP_BACKEND_URL + "NIRAJ");
+  console.log("Backend URL - "+process.env.REACT_APP_BACKEND_URL);
   return (
     <div className="App">
       <Router>

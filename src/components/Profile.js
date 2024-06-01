@@ -1,63 +1,77 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ListGroup, Spinner } from 'react-bootstrap';
-
-const axiosInstance = axios.create({
-  withCredentials: true
-});
+import { ListGroup, Card, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from './Navbar';
 
 const Profile = () => {
   const [userData, setUserData] = useState({});
   const [movieLists, setMovieLists] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [selectedListId, setSelectedListId] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axiosInstance.get('https://movie-library-backend-theta.vercel.app/api/auth/profile', {
-          withCredentials: true // Include cookies with the request
+        console.log('Fetching user data...');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/profile`, {
+          withCredentials: true 
         });
+        console.log('User data fetched:') 
+        // console.log(response.data);
         setUserData(response.data.user);
         setMovieLists(response.data.lists);
-        setLoading(false);
+        setIsLoggedIn(true);
       } catch (error) {
-        setError(error.message || 'An error occurred');
-        setLoading(false);
+        console.error('Error fetching user data:', error);
+        setIsLoggedIn(false); 
       }
     };
   
     fetchUserData();
   }, []);
-  
 
-  if (loading) {
-    return <Spinner animation="border" role="status">
-      <span className="sr-only">Loading...</span>
-    </Spinner>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  // console.log('Rendering Profile component...');
 
   return (
-    <div>
-      <h2>User Data</h2>
-      <>
-        <p>Email: {userData.email}</p>
-        <p>Username: {userData.username}</p>
-      </>
-
-      <h2>Movie Lists</h2>
-      {movieLists.map((list) => (
-        <ListGroup key={list._id}>
-          <ListGroup.Item variant="primary">{list.name}</ListGroup.Item>
-          {list.movies.map((movie) => (
-            <ListGroup.Item key={movie.imdbID}>{movie.Title}</ListGroup.Item>
-          ))}
-        </ListGroup>
-      ))}
+    <div className="container">
+      <Navbar/>
+      {isLoggedIn ? (
+        <Row>
+          <Col md={6}>
+            <Card className="mb-3 shadow">
+              <Card.Body>
+                <Card.Title className="text-primary">My Profile</Card.Title>
+                <Card.Text>
+                  <strong>Username:</strong> {userData.username}<br />
+                  <strong>Email:</strong> {userData.email}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={6}>
+            <h3>Movie Lists</h3>
+            {movieLists.map(list => (
+              <Card key={list._id} className="mb-3 shadow" style={{cursor: 'pointer'}} onClick={() => { if(selectedListId==null) setSelectedListId(list._id); else setSelectedListId(null); }}>
+                <Card.Header className="bg-light" onClick={() => setSelectedListId(selectedListId === list._id ? null : list._id)}>
+                  <strong>{list.name}</strong> 
+                </Card.Header>
+                {selectedListId === list._id && (
+                  <ListGroup variant="flush">
+                    {list.movies.map(movie => (
+                      <ListGroup.Item key={movie.imdbID}>{movie.Title}</ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                )}
+              </Card>
+            ))}
+          </Col>
+        </Row>
+      ) : (
+        <div>
+          <h3>Please log in to view your profile.</h3>
+        </div>
+      )}
     </div>
   );
 };
