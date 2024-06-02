@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ListGroup, Card, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './Navbar';
+import { Link } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
@@ -62,17 +63,19 @@ const Profile = () => {
             <h3>Movie Lists</h3>
             {movieLists.map(list => (
               <Card key={list._id} className="mb-3 shadow" style={{cursor: 'pointer'}} onClick={() => { if(selectedListId==null) setSelectedListId(list._id); else setSelectedListId(null); }}>
-                <Card.Header className="bg-light" onClick={() => setSelectedListId(selectedListId === list._id ? null : list._id)}>
-                  <strong>{list.name}</strong> 
-                </Card.Header>
-                {selectedListId === list._id && (
-                  <ListGroup variant="flush">
-                    {list.movies.map(movie => (
-                      <ListGroup.Item key={movie.imdbID}>{movie.Title}</ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                )}
-              </Card>
+              <Card.Header className="bg-light" onClick={() => setSelectedListId(selectedListId === list._id ? null : list._id)}>
+                <strong >{list.name}</strong>
+              </Card.Header>
+              {selectedListId === list._id && (
+                <ListGroup variant="flush">
+                  {list.movies.map(movie => (
+                    <ListGroup.Item key={movie.imdbID}>
+                      <Link to={`/movie/${movie.imdbID}`}>{movie.Title}</Link>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
+            </Card>
             ))}
           </Col>
         </Row>

@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import MovieDetails from "./components/MovieDetails";
 
 function App() {
   console.log("Backend URL - "+process.env.REACT_APP_BACKEND_URL);
@@ -17,6 +18,7 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/movielist" element={<MovieList/>}></Route>
           <Route path="/profile" element={<Profile/>}></Route>
+          <Route path="/movie/:imdbID" element={<MovieDetails />} />
         </Routes>
       </Router>
     </div>

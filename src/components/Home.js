@@ -23,30 +23,32 @@ return (
   <div className="container">
     <Navbar />
     <div className="row justify-content-center">
-  <div className="col-md-8">
-    <div className="jumbotron mt-4">
-      <h3>Public Lists</h3>
-      {publicLists.map(list => (
-        <Card key={list._id} className="mb-3 shadow" style={{cursor: 'pointer'}} onClick={() => { if(selectedListId==null) setSelectedListId(list._id); else setSelectedListId(null); }}>
-          <Card.Header className="bg-light" onClick={() => setSelectedListId(selectedListId === list._id ? null : list._id)}>
-            <strong >{list.name}</strong>
-          </Card.Header>
-          {selectedListId === list._id && (
-            <ListGroup variant="flush">
-              {list.movies.map(movie => (
-                <ListGroup.Item key={movie.imdbID}>{movie.Title}</ListGroup.Item>
-              ))}
-            </ListGroup>
-          )}
-        </Card>
-      ))}
-      <p className="text-center">
-        <Link to="/login" className="btn btn-primary">Login</Link> or 
-        <Link to="/register" className="btn btn-secondary">Register</Link> to get started.
-      </p>
+      <div className="col-md-8">
+        <div className="jumbotron mt-4">
+          <h3>Public Lists</h3>
+          {publicLists.map(list => (
+            <Card key={list._id} className="mb-3 shadow" style={{cursor: 'pointer'}} onClick={() => { if(selectedListId==null) setSelectedListId(list._id); else setSelectedListId(null); }}>
+              <Card.Header className="bg-light" onClick={() => setSelectedListId(selectedListId === list._id ? null : list._id)}>
+                <strong >{list.name}</strong>
+              </Card.Header>
+              {selectedListId === list._id && (
+                <ListGroup variant="flush">
+                  {list.movies.map(movie => (
+                    <ListGroup.Item key={movie.imdbID}>
+                      <Link to={`/movie/${movie.imdbID}`}>{movie.Title}</Link>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
+            </Card>
+          ))}
+          <p className="text-center">
+            <Link to="/login" className="btn btn-primary">Login</Link> or 
+            <Link to="/register" className="btn btn-secondary">Register</Link> to get started.
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
   </div>
 );
 };
