@@ -15,31 +15,31 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      console.log('Fetching user data...' )
+      console.log('Fetching user data...');
       // console.log(document.cookie);
       console.log("Above is cookie")
       try {
-        console.log('Fetching user data...');
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/profile`, {
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${document.cookie.split('=')[1]}`,
-          },
-          withCredentials: true,
-        });
-        console.log('User data fetched:') 
-        // console.log(response.data);
-        setUserData(response.data.user);
-        setMovieLists(response.data.lists);
-        setIsLoggedIn(true);
+        if (isLoggedIn) {
+          console.log('Fetching user data...');
+          const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/profile`, {
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${document.cookie.split('=')[1]}`,
+            },
+            withCredentials: true,
+          });
+          console.log('User data fetched:');
+          // console.log(response.data);
+          setUserData(response.data.user);
+          setMovieLists(response.data.lists);
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
-        setIsLoggedIn(false); 
       }
     };
   
     fetchUserData();
-  }, []);
+  }, [isLoggedIn]);
 
   // console.log('Rendering Profile component...');
 
