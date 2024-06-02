@@ -42,7 +42,13 @@ const MovieList = () => {
     };
     // console.log(listData);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/lists/create`, listData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/lists/create`, listData,{
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${document.cookie.split('=')[1]}`,
+        },
+        withCredentials: true,
+      });
       alert('List created successfully');
       navigate('/profile');
       console.log(response.data);

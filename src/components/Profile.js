@@ -14,12 +14,17 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      console.log('Fetching user data...' )
+      // console.log(document.cookie);
+      console.log("Above is cookie")
       try {
         console.log('Fetching user data...');
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/profile`, {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${document.cookie.split('=')[1]}`,
+          },
           withCredentials: true,
-          secure: true, // Set secure flag to send cookies over HTTPS
         });
         console.log('User data fetched:') 
         // console.log(response.data);
