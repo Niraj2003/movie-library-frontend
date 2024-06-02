@@ -88,7 +88,7 @@ const MovieList = () => {
         <div className="col-md-8">
           <h3 className="text-center">Selected Movies</h3>
           {selectedMovies.length === 0 ? <p>No movies selected</p> : selectedMovies.map(movie => <p>{movie.Title}</p>)}
-
+  
           <Form.Group controlId="listName">
             <Form.Control
               type="text"
@@ -124,10 +124,12 @@ const MovieList = () => {
                 key={movie.imdbID} // Add key prop here
                 className={selectedMovies.includes(movie) ? 'list-group-item-success' : ''}
               >
-                {movie.Title}
-                <Button onClick={() => handleSelect(movie)}>
-                  {selectedMovies.includes(movie) ? 'Deselect' : 'Select'}
-                </Button>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span>{movie.Title}</span>
+                  <Button onClick={() => handleSelect(movie)}>
+                    {selectedMovies.includes(movie) ? 'Deselect' : 'Select'}
+                  </Button>
+                </div>
               </ListGroup.Item>
             ))}
           </ListGroup>

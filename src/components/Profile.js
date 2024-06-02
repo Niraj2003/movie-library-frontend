@@ -67,8 +67,8 @@ const Profile = () => {
           <Col md={6}>
             <h3>Movie Lists</h3>
             {movieLists.map(list => (
-              <Card key={list._id} className="mb-3 shadow" style={{cursor: 'pointer'}} onClick={() => { if(selectedListId==null) setSelectedListId(list._id); else setSelectedListId(null); }}>
-              <Card.Header className="bg-light" onClick={() => setSelectedListId(selectedListId === list._id ? null : list._id)}>
+              <Card key={list._id} className="mb-3 shadow" style={{ cursor: 'pointer' }} onClick={() => { if (selectedListId == null) setSelectedListId(list._id); else if(selectedListId == list._id) setSelectedListId(null)  ; else setSelectedListId(list._id); }}>
+                <Card.Header className="bg-light" onClick={() => setSelectedListId(selectedListId === list._id ? null : list._id)}>
                 <strong >{list.name}</strong>
               </Card.Header>
               {selectedListId === list._id && (
