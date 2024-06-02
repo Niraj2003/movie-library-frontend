@@ -30,10 +30,11 @@ const Login = () => {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, formData, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
+        secure: true, // Set secure flag to send cookies over HTTPS
       });
       console.log('Login successful:');
       const token = response.data.token; 
-      Cookies.set('authToken', token, { expires: 7 }); 
+      Cookies.set('authToken', token, { expires: 7, secure: true }); // Set secure flag when setting the cookie
       alert("Login successful");
       setIsLoggedIn(true);
       navigate('/profile');
