@@ -42,7 +42,7 @@ const MovieList = () => {
     };
     // console.log(listData);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/lists/create`, listData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/lists/create`, listData, {withCredentials: true});
       alert('List created successfully');
       navigate('/profile');
       console.log(response.data);
@@ -66,9 +66,9 @@ const MovieList = () => {
       alert('You need to log in first');
       return;
     }
-    console.log(`http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${searchTerm}`);
+    console.log(`${process.env.REACT_APP_OMDB_API}&s=${searchTerm}`);
     try {
-      const response = await axios.get(`http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${searchTerm}`,{withCredentials: false});
+      const response = await axios.get(`${process.env.REACT_APP_OMDB_API}&s=${searchTerm}`,{withCredentials: false});
       setMovies(response.data.Search);
     } catch (error) {
       console.error(error);

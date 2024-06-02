@@ -4,6 +4,8 @@ import { ListGroup, Card, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './Navbar';
 
+axios.defaults.withCredentials = true;
+
 const Profile = () => {
   const [userData, setUserData] = useState({});
   const [movieLists, setMovieLists] = useState([]);
@@ -14,9 +16,7 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         console.log('Fetching user data...');
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/profile`, {
-          withCredentials: true 
-        });
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/profile`);
         console.log('User data fetched:') 
         // console.log(response.data);
         setUserData(response.data.user);
